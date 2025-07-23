@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hwss-frontend-config
+data:
+  VITE_DEVELOPMENT_MODE: "false"
+  VITE_PRODUCTION_API_URL: "http://172.30.84.164:8123"
+  VITE_PRODUCTION_SCREENING_URL: "http://172.30.84.165:8686"

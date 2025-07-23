@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hwss-core
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hwss-core
+  template:
+    metadata:
+      labels:
+        app: hwss-core
+    spec:
+      containers:
+        - name: hwss-core
+          image: druksmartdeveloper2024/hwss-core:v2.2.5
+          ports:
+            - containerPort: 8123
+          env:
+            - name: DATABASE_ENGINE
+              valueFrom:
+                secretKeyRef:
+                  name: hwss-core-secrets
+                  key: DATABASE_ENGINE
+            - name: DATABASE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: hwss-core-secrets
+                  key: DATABASE_NAME
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: hwss-core-secrets
+                  key: DATABASE_USER
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: hwss-core-secrets
+                  key: DATABASE_PASSWORD
+            - name: DATABASE_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: hwss-core-secrets
+                  key: DATABASE_HOST
+            - name: DATABASE_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: hwss-core-secrets
+                  key: DATABASE_PORT
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: hwss-core-secrets
+                  key: SECRET_KEY
+            - name: DEBUG
+              valueFrom:
+                secretKeyRef:
+                  name: hwss-core-secrets
+                  key: DEBUG
+          resources:
+            # requests:
+            #   cpu: "500m"
+            #   memory: "512Mi"
+            limits:
+              memory: "2Gi"
+              cpu: "2000m"
+      imagePullSecrets:
+        - name: imgpull

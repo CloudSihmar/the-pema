@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hwss-frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hwss-frontend
+  template:
+    metadata:
+      labels:
+        app: hwss-frontend
+    spec:
+      containers:
+        - name: hwss-frontend
+          image: druksmartdeveloper2024/hwss-frontend:v2.2.11
+          ports:
+            - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: hwss-frontend-config
+          resources:
+            # requests:
+            #   cpu: "100m"
+            #   memory: "128Mi"
+            limits:
+              cpu: "2000m"
+              memory: "4Gi"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            failureThreshold: 3
+      imagePullSecrets:
+        - name: imgpull

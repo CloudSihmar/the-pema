@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hwss-qbs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hwss-qbs
+  template:
+    metadata:
+      labels:
+        app: hwss-qbs
+    spec:
+      containers:
+        - name: hwss-qbs
+          image: druksmartdeveloper2024/hwss-qbs:v2.2.5
+          ports:
+            - containerPort: 8686
+          env:
+            - name: DATABASE_ENGINE
+              valueFrom:
+                secretKeyRef:
+                  name: hwss-qbs-secrets
+                  key: DATABASE_ENGINE
+            - name: DATABASE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: hwss-qbs-secrets
+                  key: DATABASE_NAME
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: hwss-qbs-secrets
+                  key: DATABASE_USER
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: hwss-qbs-secrets
+                  key: DATABASE_PASSWORD
+            - name: DATABASE_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: hwss-qbs-secrets
+                  key: DATABASE_HOST
+            - name: DATABASE_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: hwss-qbs-secrets
+                  key: DATABASE_PORT
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: hwss-qbs-secrets
+                  key: SECRET_KEY
+            - name: DEBUG
+              valueFrom:
+                secretKeyRef:
+                  name: hwss-qbs-secrets
+                  key: DEBUG
+          resources:
+            # requests:
+            #   cpu: "500m"
+            #   memory: "512Mi"
+            limits:
+              cpu: "2000m"
+              memory: "2Gi"
+      imagePullSecrets:
+        - name: imgpull

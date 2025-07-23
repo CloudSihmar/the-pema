@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hwss-qbs-admin
+spec:
+  selector:
+    app: hwss-qbs
+  ports:
+    - protocol: TCP
+      port: 8686
+      targetPort: 8686
+  type: LoadBalancer
+  loadBalancerIP: 172.30.84.165

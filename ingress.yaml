@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hwss-frontend-ingress
+  namespace: default
+  annotations:
+    #nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: thepemasystem.gov.bt
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: hwss-frontend
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - thepemasystem.gov.bt
+    secretName: thepemasystem-tls
